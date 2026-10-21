@@ -1,0 +1,23 @@
+const P=document.body.dataset.page,A=document.getElementById("app");
+const esc=s=>String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+document.getElementById("nav").outerHTML=`<nav><b>▮ LAB·302</b>${PAGES.map(([f,t])=>`<a href="${f}.html" class="${f==P?"on":""}">${t}</a>`).join("")}</nav>`;
+document.getElementById("foot").textContent="Guía de estudio · Servidor Lab 302 · Proxmox VE · Basada en el informe técnico (Octubre 2026)";
+const table=(h,r)=>`<div style="overflow:auto"><table><tr>${h.map(x=>`<th>${x}</th>`).join("")}</tr>${r.map(x=>`<tr>${x.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</table></div>`;
+const R={
+index(){A.innerHTML=`<div class="tag">Guía de estudio · Universidad Privada Franz Tamayo</div><h1>Servidor Lab 302<br>con Proxmox VE</h1>
+<p class="lead">Aprende qué componentes tiene el servidor, para qué sirve cada uno, qué puede hacer y cómo usarlo, y practica con un banco de ejercicios.</p>
+<div class="plate"><div><span>CPU</span><i>Xeon Silver 4210R · 20 hilos</i></div><div><span>RAM</span><i>64 GB DDR4 ECC</i></div><div><span>DISCO</span><i>2x 960 GB SSD · ZFS Mirror</i></div><div><span>RED</span><i>4x 1GbE + 2x 10GbE SFP+</i></div></div>
+<div class="grid"><a class="card" href="componentes.html"><div class="tag">01</div><h3>Componentes</h3><p>Hardware y software, y para qué sirve cada uno.</p></a><a class="card" href="funcionalidades.html"><div class="tag">02</div><h3>Funcionalidades</h3><p>Pools, snapshots, backups, API… con comandos.</p></a><a class="card" href="ejercicios.html"><div class="tag">03</div><h3>Ejercicios</h3><p>Teoría, cálculos y práctica de consola.</p></a><a class="card" href="recursos.html"><div class="tag">04</div><h3>Recursos</h3><p>Enlaces a documentación oficial.</p></a></div>
+<h2>Distribución por entorno</h2>${table(["Entorno","Virtualización","vCPU","RAM","Disco","Justificación"],ENTORNOS)}`},
+componentes(){A.innerHTML=`<div class="tag">01</div><h1>Componentes</h1><p class="lead">Cada pieza del servidor, su capacidad instalada y su límite usable.</p><div class="chips">${COMPONENTES.map(c=>`<a href="#${c.id}">${c.n}</a>`).join("")}</div>`+COMPONENTES.map(c=>`<section id="${c.id}" class="card" style="margin:14px 0"><h3>${c.n}</h3><p><b>Instalado:</b> ${c.inst}</p><p><b>Límite usable:</b> ${c.lim}</p><p><b>¿Para qué sirve?</b> ${c.uso}</p><p style="color:var(--mut)">💡 ${c.nota}</p></section>`).join("")},
+funcionalidades(){A.innerHTML=`<div class="tag">02</div><h1>Funcionalidades</h1><p class="lead">Qué puede hacer el servidor y cómo se usa. Los comandos se ejecutan en la consola del nodo.</p><div class="chips">${FUNCIONES.map(f=>`<a href="#${f.id}">${f.n}</a>`).join("")}</div>`+FUNCIONES.map(f=>`<section id="${f.id}" class="card" style="margin:14px 0"><h3>${f.n} <span class="badge ${f.ok?"":"no"}">${f.ok?"DISPONIBLE":"NO EN NODO ÚNICO"}</span></h3><p>${f.que}</p><p><b>Pasos:</b> ${f.pasos.map((p,i)=>`${i+1}. ${p}`).join(" · ")}</p><pre>${esc(f.cmd)}</pre></section>`).join("")},
+ejercicios(){const tabs=[["t","Teoría"],["c","Cálculo"],["p","Práctica CLI"]];
+A.innerHTML=`<div class="tag">03</div><h1>Banco de ejercicios</h1><div class="tabs">${tabs.map(([k,n],i)=>`<button data-k="${k}" class="${i?"":"on"}">${n}</button>`).join("")}</div><div id="ex"></div>`;
+const V={t:()=>TEORIA.map(([q,a],i)=>`<details><summary>${i+1}. ${q}</summary><p>${a}</p></details>`).join(""),
+c:()=>CALCULO.map(([q,a],i)=>`<div class="card" style="margin:10px 0"><p><b>${i+1}.</b> ${q}</p><div class="row"><input type="number" id="n${i}" placeholder="respuesta"><button class="b" data-i="${i}">Comprobar</button><span class="res" id="r${i}"></span></div></div>`).join(""),
+p:()=>PRACTICA.map(([q,a],i)=>`<details><summary>${i+1}. ${q}</summary><p style="color:var(--mut)">Escríbelo primero en tu consola; luego compara:</p><pre>${esc(a)}</pre></details>`).join("")};
+const show=k=>{document.getElementById("ex").innerHTML=V[k]()};
+A.querySelector(".tabs").onclick=e=>{const b=e.target.closest("button");if(!b)return;A.querySelectorAll(".tabs button").forEach(x=>x.classList.toggle("on",x==b));show(b.dataset.k)};
+document.getElementById("ex").onclick=e=>{const i=e.target.dataset.i;if(i===undefined)return;const v=parseFloat(document.getElementById("n"+i).value),r=document.getElementById("r"+i),ok=v===CALCULO[i][1];r.className="res "+(ok?"ok":"no");r.textContent=ok?"✔ Correcto":"✘ Inténtalo de nuevo"};show("t")},
+recursos(){A.innerHTML=`<div class="tag">04</div><h1>Recursos</h1><p class="lead">Enlaces para profundizar.</p><div class="grid">${RECURSOS.map(([n,u,d])=>`<a class="card" href="${u}" target="_blank" rel="noopener"><h3>${n} ↗</h3><p>${d}</p></a>`).join("")}</div>`}};
+R[P]();
