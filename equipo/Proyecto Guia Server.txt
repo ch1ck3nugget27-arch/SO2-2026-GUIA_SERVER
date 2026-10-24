@@ -1,4 +1,0 @@
-Nombre: Gerardo
-Apellido: Gutierrez Rosales
-Grupo: Pendiente de completar
-Rol o responsabilidad principal: Desarrollador y Scrum Master
