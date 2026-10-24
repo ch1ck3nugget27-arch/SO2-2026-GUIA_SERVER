@@ -1,0 +1,2 @@
+Repositorio oficial del proyecto Guía Server:
+https://github.com/ch1ck3nugget27-arch/SO2-2026-GUIA_SERVER
