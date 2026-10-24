@@ -58,9 +58,9 @@ Los archivos HTML, CSS y JavaScript que están en docs/proyecto/ corresponden a 
 5. Mantener coherencia entre el README, la documentación, la planificación y las Issues.
 
 ## Enlaces de trabajo
-- [Documentación del proyecto](docs/proyecto/)
-- [Requisitos](docs/requisitos/)
-- [Planificación](docs/planificacion/)
+- [Resumen del documento del proyecto](docs/proyecto/documento_proyecto.md)\n- [Documentación y archivos actuales de la guía web](docs/proyecto/)
+- [Requisitos y preparación para auditoría](docs/requisitos/estado_requisitos.md)\n- [Requisitos](docs/requisitos/)
+- [Gantt de 10 semanas](docs/planificacion/gantt_10_semanas.md)\n- [Planificación](docs/planificacion/)
 - [Presentaciones](docs/presentaciones/)
 - [Equipo](equipo/)
 
